@@ -1,7 +1,7 @@
 ﻿if not A_IsAdmin
 {
-   Run *RunAs "%A_ScriptFullPath%" 
-   ExitApp
+   ;Run *RunAs "%A_ScriptFullPath%" 
+   ;ExitApp
 }
 ;;;Includes;;;
 #IfWinActive GTA:SA:MP
@@ -10,22 +10,19 @@
 #Include API.ahk
 #include httplib.ahk
 #include json.ahk
-#include defines.ahk
 #EscapeChar `
 #CommentFlag ;
+#include defines.ahk
 
-;~ ;;;;Variablen1;;;;
 Version := 1
+if (!UserLogin("Test","6"))
+   MsgBox,Benutzername oder Passwort falsch
+else 
+   MsgBox,Willkommen
+;Killstats := API("http://api.rpn-server.de/getKillStats?UserKey=" usertoken )
+;PaintballKills := Killstats["PaintballKills"]
 
-
-
-login := API("http://api.rpn-server.de/getUserToken?User=" . username . "&Password=" . passwort)
-usertoken := login["UserToken"]
-
-Killstats := API("http://api.rpn-server.de/getKillStats?UserKey=" usertoken )
-PaintballKills := Killstats["PaintballKills"]
-
-PaintballDeaths := Killstats["PaintballDeaths"]
+;PaintballDeaths := Killstats["PaintballDeaths"]
 
 ;;;;Variablen2;;;;
 
@@ -56,10 +53,10 @@ Hotkey, Enter, Off
 Hotkey, Escape, Off
 return
 
-z::
-SendInput t/m Bleiben sie stehen sir{!}{enter}
+~z::
+SendChat("/m Bleiben sie stehen, Sir!")
 return
 
-u::
-SendInput t/m Ich werde gleich das Feuer eröffnen{!}{enter}
+~u::
+SendChat("/m Nun reichts mir aber! Ich werde gleich das Feuer eröffnen!")
 return

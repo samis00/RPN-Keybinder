@@ -67,8 +67,11 @@ JSON_load(filename) {
 
 //  Error handling                                                        //
 JSON_error(s){
-    Msgbox, % "[" . A_now . "] " . s
-    Exit
+    file := FileOpen("error.log", "a")
+    file.write("[" . A_now . "] " . s . "\n")
+    file.close()
+    //Msgbox, % "[" . A_now . "] " . s
+    return false
 }
 
 //  Escape / unescape json keys and values                                //
@@ -229,7 +232,8 @@ JSON_from(s){
 
         // Shift a token                 //
         t := JSON_shift(s,pos,symbols,ret)
-
+        if (t==false)
+            return false
         // Reduce                       //
         symbols := JSON_reduce(t["symbols"],ret), pos := t["pos"]
 
@@ -270,8 +274,8 @@ JSON_shift(s, pos, symbols, ret){
     }
 
     // If there is nothing to shift, error  //
-    JSON_error("Error at pos:" pos "\n" substr(s,pos-4))
-    exit
+    JSON_error("Error at pos:" pos "\n" substr(s,pos-4) " in ->" s)
+    return false
 }
 
 

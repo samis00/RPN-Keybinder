@@ -2,9 +2,19 @@
 username := "Test"
 passwort := "7"
 
+UserLogin(user,password)
+{
+        if (login := API("http://api.rpn-server.de/getUserToken?User=" . user . "&Password=" . password))
+        {
+                usertoken := login["UserToken"]
+                return true
+        }
+        return false
+}
+
 API(url)
 {
-        jresponse := DownloadToString("http://api.rpn-server.de/getUserToken?User=" . username . "&Password=" . passwort)
+        jresponse := DownloadToString(url)
         j := JSON_from(jresponse)
         return j
 }
@@ -78,5 +88,5 @@ Waffe(){
                 str := "Hydra"
         else if (GetVehicleModel() == 432)
                 str := "Panzer"
-        return, Str
+        return, str
 }
